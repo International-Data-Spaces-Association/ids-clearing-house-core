@@ -37,7 +37,7 @@ impl KeyringApiClient {
 
         debug!("Status Code: {}", result.status());
         let key_map: KeyMap = result.json()?;
-        debug!("Payload: {:?}", key_map);
+        trace!("Payload: {:?}", key_map);
         Ok(key_map)
     }
 
@@ -55,7 +55,7 @@ impl KeyringApiClient {
 
         debug!("Status Code: {}", &result.status());
         let key_map: KeyMap = result.json()?;
-        debug!("Payload: {:?}", key_map);
+        trace!("Payload: {:?}", key_map);
         Ok(key_map)
     }
 
@@ -75,7 +75,7 @@ impl KeyringApiClient {
 
         debug!("Status Code: {}", &result.status());
         let key_maps: Vec<KeyMapListItem> = result.json()?;
-        debug!("Payload: {:?}", key_maps);
+        trace!("Payload: {:?}", key_maps);
         Ok(key_maps)
     }
 }

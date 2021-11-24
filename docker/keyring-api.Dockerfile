@@ -18,5 +18,7 @@ RUN mkdir /server
 WORKDIR /server
 
 COPY target/release/keyring-api .
+COPY docker/entrypoint.sh .
 
-ENTRYPOINT ["/server/keyring-api"]
+ENTRYPOINT ["/server/entrypoint.sh"]
+CMD ["/server/keyring-api"]

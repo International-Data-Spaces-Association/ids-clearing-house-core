@@ -6,6 +6,7 @@ use crate::api::{ApiClient, DocumentReceipt};
 use crate::constants::{ROCKET_DOC_API, DOCUMENT_API_URL};
 use crate::errors::*;
 use crate::model::document::Document;
+use crate::model::SortingOrder;
 use crate::util::url_encode;
 
 #[derive(Clone)]
@@ -73,6 +74,25 @@ impl DocumentApiClient{
         let mut response = client
             .get(document_url.as_str())
             .header(CONTENT_TYPE, HeaderValue::from_static("application/json"))
+            .bearer_auth(token)
+            .send()?;
+
+        debug!("Status Code: {}", &response.status());
+        let docs: Vec<Document> = response.json()?;
+        Ok(docs)
+    }
+
+    pub fn get_documents_for_pid_paginated(&self, token: &String, pid: &String, page: i32, size: i32, sort: SortingOrder) -> Result<Vec<Document>>{
+        let document_url = format!("{}{}/{}", self.uri, ROCKET_DOC_API, url_encode(pid));
+        let client = Client::new();
+
+        debug!("calling {}", &document_url);
+        let mut response = client
+            .get(document_url.as_str())
+            .header(CONTENT_TYPE, HeaderValue::from_static("application/json"))
+            .query(&[("page", page)])
+            .query(&[("size", size)])
+            .query(&[("sort", sort)])
             .bearer_auth(token)
             .send()?;
 

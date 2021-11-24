@@ -10,6 +10,7 @@ pub mod errors {
     // Create the Error, ErrorKind, ResultExt, and Result types
     error_chain!{
         foreign_links {
+            Conversion(std::num::TryFromIntError);
             Figment(figment::Error);
             HexError(hex::FromHexError);
             Io(::std::io::Error) #[cfg(unix)];

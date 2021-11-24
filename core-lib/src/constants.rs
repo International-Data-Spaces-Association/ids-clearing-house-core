@@ -54,6 +54,8 @@ pub const MONGO_TC: &'static str = "tc";
 
 // definition of default database values
 pub const DEFAULT_PROCESS_ID: &'static str = "default";
+pub const MAX_NUM_RESPONSE_ENTRIES: u64 = 10000;
+pub const DEFAULT_NUM_RESPONSE_ENTRIES: u64 = 100;
 
 // split string symbols for vec_to_string and string_to_vec
 pub const SPLIT_QUOTE: &'static str = "'";

@@ -286,7 +286,7 @@ impl EncryptedDocument{
 
 /// companion to format_pt_for_storage
 pub fn restore_pt(pt: &str) -> Result<(String, String, String)> {
-    debug!("Trying to restore plain text");
+    trace!("Trying to restore plain text");
     let vec: Vec<&str> = pt.split(SPLIT_CT).collect();
     if vec.len() != 3{
         bail!("Could not restore plaintext");
@@ -296,7 +296,7 @@ pub fn restore_pt(pt: &str) -> Result<(String, String, String)> {
 
 /// companion to format_pt_for_storage_no_dt
 pub fn restore_pt_no_dt(pt: &str) -> Result<(String, String)> {
-    debug!("Trying to restore plain text");
+    trace!("Trying to restore plain text");
     let vec: Vec<&str> = pt.split(SPLIT_CT).collect();
     if vec.len() != 2{
         bail!("Could not restore plaintext");
