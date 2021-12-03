@@ -3,7 +3,7 @@ use mongodb::bson::doc;
 use mongodb::options::{CreateCollectionOptions, FindOptions, IndexOptions, WriteConcern};
 use rocket::{Build, Rocket};
 use rocket::fairing::{self, Fairing, Info, Kind};
-use rocket::futures::{StreamExt, TryStreamExt};
+use rocket::futures::TryStreamExt;
 use rocket::serde::json::json;
 use std::convert::TryFrom;
 
@@ -125,7 +125,7 @@ impl DataStoreApi for DataStore {
 impl DataStore {
     // DOCUMENT
     pub async fn add_document(&self, doc: EncryptedDocument) -> Result<bool> {
-        debug!("add_document({:#?})", json!(doc));
+        trace!("add_document({:#?})", json!(doc));
         let coll = self.database.collection::<EncryptedDocument>(MONGO_COLL_DOCUMENTS);
         match coll.insert_one(doc.clone(), None).await {
             Ok(_r) => {

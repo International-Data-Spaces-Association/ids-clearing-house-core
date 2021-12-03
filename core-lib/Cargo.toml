@@ -10,7 +10,7 @@ edition = "2018"
 [dependencies]
 aes = "0.6.0"
 aes-gcm-siv = "0.9.0"
-biscuit = "0.5.0"
+biscuit = { git = "https://github.com/lawliet89/biscuit", branch = "master" }
 base64 = "0.9.3"
 blake2-rfc = "0.2.18"
 chrono = { version = "0.4", features = ["serde"] }

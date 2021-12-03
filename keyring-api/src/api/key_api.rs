@@ -14,7 +14,7 @@ use core_lib::model::crypto::{KeyCtList, KeyMapListItem};
 
 #[get("/generate_keys/<_pid>?<dt_id>", format = "json")]
 async fn generate_keys(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, _pid: String, dt_id: String) -> ApiResponse {
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
     match db.get_msk().await{
         Ok(key) => {
             // check that doc type exists for pid
@@ -23,7 +23,7 @@ async fn generate_keys(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, 
                     // generate new random key map
                     match generate_key_map(key, dt) {
                         Ok(key_map) => {
-                            debug!("response: {:?}", &key_map);
+                            trace!("response: {:?}", &key_map);
                             return ApiResponse::SuccessCreate(json!(key_map));
                         },
                         Err(e) => {
@@ -52,8 +52,8 @@ async fn generate_keys(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, 
 #[get("/decrypt_keys/<_pid>", format = "json", data = "<key_cts>")]
 async fn decrypt_keys(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, _pid: Option<String>, key_cts: Json<KeyCtList>) -> ApiResponse {
     let cts = key_cts.into_inner();
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
-    debug!("number of cts: {}", &cts.cts.len());
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    debug!("number of cts to decrypt: {}", &cts.cts.len());
 
     // get master key
     match db.get_msk().await{
@@ -121,8 +121,8 @@ async fn decrypt_keys(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, _
 
 #[get("/decrypt_keys/<_pid>/<keys_ct>?<dt_id>", format = "json")]
 async fn decrypt_key_map(api_key: ApiKey<IdsClaims, Empty>, db: &State<KeyStore>, keys_ct: String, _pid: Option<String>, dt_id: String) -> ApiResponse {
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
-    debug!("ct: {}", &keys_ct);
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("ct: {}", &keys_ct);
     // get master key
     match db.get_msk().await{
         Ok(key) => {

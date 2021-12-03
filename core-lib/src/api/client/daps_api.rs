@@ -1,10 +1,7 @@
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
-use biscuit::{
-    jwa::SignatureAlgorithm,
-    jwk::JWKSet
-};
+use biscuit::{jwa::SignatureAlgorithm, jwk::JWKSet};
 use reqwest::{Certificate, Client, ClientBuilder};
 use serde::de::DeserializeOwned;
 use serde_json;
@@ -16,7 +13,7 @@ use crate::constants::{DAPS_JWKS, DAPS_API_URL, DAPS_CERTIFICATES};
 pub struct DapsApiClient {
     uri: String,
     pub algorithm: SignatureAlgorithm,
-    pub client: Client
+    pub client: Client,
 }
 
 impl Default for DapsApiClient {

@@ -30,7 +30,7 @@ async fn create_enc_document(
     key_api: &State<KeyringApiClient>,
     document: Json<Document>
 ) -> ApiResponse {
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
     let doc: Document = document.into_inner();
     trace!("requested document is: '{:#?}'", json!(doc));
 
@@ -125,7 +125,7 @@ async fn create_enc_document(
 #[delete("/<pid>/<id>", format = "json")]
 async fn delete_document(api_key: ApiKey<IdsClaims, Empty>, db: &State<DataStore>, pid: String, id: String) -> ApiResponse {
     debug!("delete called...");
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
     // this is only a sanity check, i.e. we make sure id/pid pair exists
     match db.get_document(&id, &pid).await{
         Ok(Some(_enc_doc)) => {
@@ -156,7 +156,7 @@ async fn get_enc_documents_for_pid(
     sort: Option<SortingOrder>,
     pid: String) -> ApiResponse {
     debug!("Trying to retrieve documents for pid '{}'...", &pid);
-    debug!("...user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("...user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
     debug!("...page: {:#?}, size:{:#?} and sort:{:#?}", page, size, sort);
 
     let mut using_pagination = false;
@@ -331,8 +331,8 @@ async fn get_enc_documents_for_pid(
 /// Retrieve document with id for process with pid
 #[get("/<pid>/<id>?<hash>", format = "json")]
 async fn get_enc_document(api_key: ApiKey<IdsClaims, Empty>, key_api: &State<KeyringApiClient>, db: &State<DataStore>, pid: String, id: String, hash: Option<String>) -> ApiResponse {
-    debug!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
-    debug!("trying to retrieve document with id '{}' for pid '{}'", &id, &pid);
+    trace!("user '{:?}' with claims {:?}", api_key.sub(), api_key.claims());
+    trace!("trying to retrieve document with id '{}' for pid '{}'", &id, &pid);
     if hash.is_some(){
         debug!("integrity check with hash: {}", hash.as_ref().unwrap());
     }

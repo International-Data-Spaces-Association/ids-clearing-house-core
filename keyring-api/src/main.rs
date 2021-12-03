@@ -6,6 +6,7 @@ use core_lib::util::setup_logger;
 use rocket::{Build, Rocket};
 use crate::db::KeyringDbConfigurator;
 use core_lib::api::client::{ApiClientConfigurator, ApiClientEnum};
+use core_lib::model::JwksCache;
 
 mod api;
 mod db;
@@ -23,4 +24,5 @@ fn rocket() -> Rocket<Build> {
         .attach(api::doc_type_api::mount_api())
         .attach(KeyringDbConfigurator)
         .attach(ApiClientConfigurator::new(ApiClientEnum::Daps))
+        .manage(JwksCache::new())
 }

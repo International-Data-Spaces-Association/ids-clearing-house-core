@@ -9,6 +9,7 @@ use rocket_cors::{
     AllowedHeaders, AllowedOrigins,
     CorsOptions
 };
+use core_lib::model::JwksCache;
 use crate::db::DatastoreConfigurator;
 
 mod doc_api;
@@ -69,4 +70,5 @@ fn rocket() -> Rocket<Build> {
         .attach(DatastoreConfigurator)
         .attach(ApiClientConfigurator::new(ApiClientEnum::Daps))
         .attach(ApiClientConfigurator::new(ApiClientEnum::Keyring))
+        .manage(JwksCache::new())
 }

@@ -1,3 +1,7 @@
+use std::sync::RwLock;
+use biscuit::Empty;
+use biscuit::jwk::JWKSet;
+
 pub mod crypto;
 pub mod document;
 pub mod process;
@@ -17,4 +21,17 @@ pub enum SortingOrder{
     #[field(value = "desc")]
     #[serde(rename = "desc")]
     Descending
+}
+
+#[derive(Debug)]
+pub struct JwksCache{
+    pub jwks: RwLock<Option<JWKSet<Empty>>>
+}
+
+impl JwksCache{
+    pub fn new() -> JwksCache{
+        JwksCache{
+            jwks: RwLock::new(None)
+        }
+    }
 }
