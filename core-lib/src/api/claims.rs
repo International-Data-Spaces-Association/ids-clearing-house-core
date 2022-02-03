@@ -2,8 +2,12 @@ use biscuit::CompactJson;
 
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
 pub struct IdsClaims {
-    /// Ids scopes
-    pub scopes: Vec<String>,
+    /// Ids scope supports DAPSv3 tokens
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scope: Option<String>,
+    /// Ids scopes supports DAPSv2 tokens
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scopes: Option<Vec<String>>,
     #[serde(rename = "securityProfile")]
     pub security_profile: String,
     #[serde(rename = "@type")]
