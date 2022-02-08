@@ -33,7 +33,7 @@ fn test_valid_claims() -> Result<()>{
     let daps_api = DapsApiClient::new(&api_url);
     // convert "default" key to HashMap
     let jwks = daps_api.get_jwks()?;
-    let jwt: Result<ApiKey<CustomClaims, Empty>> = auth::validate_token(TOKEN, jwks, Some(SignatureAlgorithm::RS256));
+    let jwt: Result<ApiKey<CustomClaims, Empty>> = auth::validate_token(TOKEN, &jwks, Some(SignatureAlgorithm::RS256));
     assert!(jwt.is_ok(), "Token is invalid. Update test token!");
     let claims = jwt.unwrap().claims();
     assert_eq!(claims.private.scopes, vec!["idsc:IDS_CONNECTOR_ATTRIBUTES_ALL".to_string()]);
@@ -50,7 +50,7 @@ fn test_invalid_claims() -> Result<()>{
     let daps_api = DapsApiClient::new(&api_url);
     // convert "default" key to HashMap
     let jwks:JWKSet<Empty> = daps_api.get_jwks()?;
-    let jwt: Result<ApiKey<CustomClaims, Empty>> = auth::validate_token(invalid_token, jwks, Some(SignatureAlgorithm::RS256));
+    let jwt: Result<ApiKey<CustomClaims, Empty>> = auth::validate_token(invalid_token, &jwks, Some(SignatureAlgorithm::RS256));
     assert!(jwt.is_err(), "Token is valid. this should not happen, really!");
     Ok(())
 }
