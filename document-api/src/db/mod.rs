@@ -38,8 +38,7 @@ impl Fairing for DatastoreConfigurator {
                 false
             }
         };
-        debug!("Using database url: '{:#?}'", &db_url);
-
+        debug!("Using mongodb url: '{:#?}'", &db_url);
         match init_database_client::<DataStore>(&db_url.as_str(), Some(DOCUMENT_DB_CLIENT.to_string())).await{
             Ok(datastore) => {
                 debug!("Check if database is empty...");
